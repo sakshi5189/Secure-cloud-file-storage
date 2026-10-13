@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Secure Cloud File Storage</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <main class="container">
+    <header>
+      <div class="cloud">☁</div>
+      <p class="eyebrow">CLOUD COMPUTING MINI-PROJECT</p>
+      <h1>Secure File Storage</h1>
+      <p class="subtitle">Split · Encrypt · Store · Restore</p>
+    </header>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="notice {{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <section class="panel">
+      <h2>Upload a file</h2>
+      <p>Choose a file. It will be split into 1 MB blocks and each block will be encrypted before storage.</p>
+      <form action="{{ url_for('upload') }}" method="post" enctype="multipart/form-data">
+        <input type="file" name="file" required>
+        <button type="submit">Encrypt &amp; Upload</button>
+      </form>
+      <small>Demo limit: 50 MB. Files are stored on this computer, not on a real cloud provider.</small>
+    </section>
+
+    <section class="panel">
+      <h2>Stored files</h2>
+      {% if items %}
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Filename</th><th>Size</th><th>Blocks</th><th>Action</th></tr></thead>
+            <tbody>
+            {% for item in items %}
+              <tr>
+                <td>{{ item.filename }}</td>
+                <td>{{ "{:,}".format(item.size) }} bytes</td>
+                <td>{{ item.blocks }}</td>
+                <td><a class="download" href="{{ url_for('download', file_id=item.id) }}">Decrypt &amp; Download</a></td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      {% else %}
+        <p class="empty">No files yet. Upload a file to begin.</p>
+      {% endif %}
+    </section>
+
+    <footer>Academic demonstration · Flask + Fernet encryption</footer>
+  </main>
+</body>
+</html>
