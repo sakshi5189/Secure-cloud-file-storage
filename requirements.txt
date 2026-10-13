@@ -1,6 +1,5 @@
-Flask
-cryptography
+Flask>=3.0,<4.0
+cryptography>=42.0,<47.0
 boto3
 python-dotenv
 gunicorn
-boto3
