@@ -3,3 +3,4 @@ cryptography
 boto3
 python-dotenv
 gunicorn
+boto3
