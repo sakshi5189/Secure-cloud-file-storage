@@ -1,0 +1,8 @@
+venv/
+.venv/
+__pycache__/
+.env
+secret.key
+storage/
+tests_out/
+*.tmp
